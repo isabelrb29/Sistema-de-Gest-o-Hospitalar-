@@ -26,4 +26,4 @@ O sistema utiliza PostgreSQL e possui tabelas para usuários, permissões, pront
 
 Abaixo está o diagrama entidade-relacionamento (DER) do banco de dados utilizado:
 
-![Diagrama ER](Diagram Entidade Relacionamento.drawio.png)
+![Diagrama ER](Diagram Entidade Relacionamento.drawio.PNG)
