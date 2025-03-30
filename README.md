@@ -27,3 +27,21 @@ O sistema utiliza PostgreSQL e possui tabelas para usuários, permissões, pront
 Abaixo está o diagrama entidade-relacionamento (DER) do banco de dados utilizado:
 
 ![Diagram Entidade Relacionamento drawio](https://github.com/user-attachments/assets/d87c8257-607a-46d0-a3be-8500decd606f)
+
+## 🏗️ Como Executar o Projeto
+
+1. **Clone o repositório**:
+   ```bash
+   git clone https://github.com/seu-usuario/seu-repositorio.git
+
+2. **Configure o banco de dados no PostgreSQL**:
+- Crie um banco de dados chamado **`gestao_hospitalar`**.
+- Execute os scripts de criação das tabelas.
+
+3. **Configure o ambiente no IntelliJ IDEA**:
+- Importe o projeto como um **projeto Maven**.
+- Configure o arquivo **`application.properties`** com as credenciais do banco de dados.
+
+4. **Execute o projeto**:
+- No IntelliJ, rode a classe principal **`MainApplication.java`**.
+- A API estará disponível em **[`http://localhost:8080`](http://localhost:8080)**.
