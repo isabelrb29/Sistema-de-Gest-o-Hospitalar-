@@ -24,7 +24,7 @@ public class InternacaoSuprimento {
     private Suprimento suprimento;
 
     @Column(nullable = false)
-    private Integer quantidadeUtilizada;
+    private Long quantidadeUtilizada;
 
     @Column(nullable = false, length = 10)
     private String unidadeMedida;

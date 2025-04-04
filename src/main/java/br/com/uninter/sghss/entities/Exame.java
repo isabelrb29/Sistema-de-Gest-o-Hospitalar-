@@ -17,7 +17,7 @@ public class Exame {
     private Long idExame;
 
     @Column(name = "codigo", nullable = false)
-    private Integer codigo;
+    private Long codigo;
 
     @Column(name = "resultado", nullable = false, columnDefinition = "TEXT")
     private String resultado;

@@ -15,7 +15,7 @@ public class Suprimento {
     private String nome;
 
     @Column(nullable = false)
-    private Integer quantidade;
+    private Long quantidade;
 
     @Column(nullable = false, length = 10)
     private String unidadeMedida;

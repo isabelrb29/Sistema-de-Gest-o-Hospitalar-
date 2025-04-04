@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public abstract class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false, length = 255)
     private String nome;
@@ -44,7 +44,7 @@ public abstract class Usuario {
     private boolean ativo = true;
 
     @ManyToOne
-    @JoinColumn(name = "perfil_id", nullable = false)
+    @JoinColumn(name = "id_perfil", nullable = false)
     private Perfil perfil;
 
     public abstract String getTipoUsuario();
