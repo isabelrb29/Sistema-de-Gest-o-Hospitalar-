@@ -34,9 +34,6 @@ public abstract class Usuario {
     @Column(nullable = false, length = 20)
     private String telefone;
 
-    @Column(unique = true, nullable = false, length = 255)
-    private String login;
-
     @Column(nullable = false, length = 255)
     private String senha;
 

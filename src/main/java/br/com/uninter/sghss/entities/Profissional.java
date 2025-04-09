@@ -19,6 +19,6 @@ public class Profissional extends Usuario{
 
     @Override
     public String getTipoUsuario() {
-        return "Profissional";
+        return "ROLE_PROFISSIONAL";
     }
 }
