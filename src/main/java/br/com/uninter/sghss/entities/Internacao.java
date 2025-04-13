@@ -12,7 +12,7 @@ public class Internacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idInternacao;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "paciente_id", nullable = false)

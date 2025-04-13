@@ -15,7 +15,7 @@ public class Perfil {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idPerfil;
+    private Long id;
 
     @Column(nullable = false, length = 255)
     private String descricao;

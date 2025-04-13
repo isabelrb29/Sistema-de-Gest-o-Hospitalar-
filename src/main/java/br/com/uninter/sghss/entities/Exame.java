@@ -14,7 +14,7 @@ public class Exame {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idExame;
+    private Long id;
 
     @Column(name = "codigo", nullable = false)
     private Long codigo;
@@ -23,6 +23,6 @@ public class Exame {
     private String resultado;
 
     @OneToOne
-    @JoinColumn(name = "id_agendamento", referencedColumnName = "idAgendamento")
+    @JoinColumn(name = "id_agendamento", referencedColumnName = "id")
     private Agendamento agendamento;
 }

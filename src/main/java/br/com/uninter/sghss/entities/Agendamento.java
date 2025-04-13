@@ -12,7 +12,7 @@ public class Agendamento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idAgendamento;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "paciente_id", nullable = false)

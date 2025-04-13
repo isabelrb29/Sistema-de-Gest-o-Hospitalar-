@@ -13,7 +13,7 @@ public class Permissao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idPermissao;
+    private Long id;
 
     @Column(nullable = false, length = 255)
     private String nome;

@@ -14,13 +14,13 @@ public class Consulta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idConsulta;
+    private Long id;
 
     @Column(name = "tipo_consulta", nullable = false, length = 15)
     private String tipoConsulta;
 
     @OneToOne
-    @JoinColumn(name = "id_agendamento", referencedColumnName = "idAgendamento")
+    @JoinColumn(name = "id_agendamento", referencedColumnName = "id")
     private Agendamento agendamento;
 
 }

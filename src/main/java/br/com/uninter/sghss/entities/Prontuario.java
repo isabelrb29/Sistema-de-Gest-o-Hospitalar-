@@ -16,7 +16,7 @@ public class Prontuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idProntuario;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "paciente_id", nullable = false)

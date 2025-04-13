@@ -16,7 +16,7 @@ public class Prescricao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idPrescricao;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "paciente_id", nullable = false)

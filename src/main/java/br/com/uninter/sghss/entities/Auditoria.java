@@ -15,7 +15,7 @@ import java.time.LocalDate;
 public class Auditoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idAuditoria;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)

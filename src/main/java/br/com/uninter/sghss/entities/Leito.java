@@ -10,7 +10,7 @@ public class Leito {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idLeito;
+    private Long id;
 
     @Column(name = "numero_leito", nullable = false, unique = true, length = 10)
     private String numeroLeito;
