@@ -1,7 +1,7 @@
 package br.com.uninter.sghss.controllers;
 
-import br.com.uninter.sghss.entities.Prontuario;
-import br.com.uninter.sghss.services.ProntuarioService;
+import br.com.uninter.sghss.entities.Leito;
+import br.com.uninter.sghss.services.LeitoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -9,35 +9,35 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/prontuarios")
-public class ProntuarioController {
+@RequestMapping("/leitos")
+public class LeitoController {
 
     @Autowired
-    private ProntuarioService prontuarioService;
+    private LeitoService leitoService;
 
     @PostMapping
-    public ResponseEntity<Prontuario> criar(@RequestBody Prontuario prontuario) {
-        Prontuario salvo = prontuarioService.salvar(prontuario);
+    public ResponseEntity<Leito> criar(@RequestBody Leito leito) {
+        Leito salvo = leitoService.salvar(leito);
         return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
     }
 
     @GetMapping
-    public ResponseEntity<List<Prontuario>> listarTodos() {
-        return ResponseEntity.ok(prontuarioService.listarTodos());
+    public ResponseEntity<List<Leito>> listarTodos() {
+        return ResponseEntity.ok(leitoService.listarTodos());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Prontuario> buscarPorId(@PathVariable Long id) {
-        return prontuarioService.buscarPorId(id)
+    public ResponseEntity<Leito> buscarPorId(@PathVariable Long id) {
+        return leitoService.buscarPorId(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Prontuario> atualizar(@PathVariable Long id, @RequestBody Prontuario atualizado) {
+    public ResponseEntity<Leito> atualizar(@PathVariable Long id, @RequestBody Leito atualizado) {
         try {
-            Prontuario prontuario = prontuarioService.atualizar(id, atualizado);
-            return ResponseEntity.ok(prontuario);
+            Leito leito = leitoService.atualizar(id, atualizado);
+            return ResponseEntity.ok(leito);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
@@ -46,7 +46,7 @@ public class ProntuarioController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         try {
-            prontuarioService.deletar(id);
+            leitoService.deletar(id);
             return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
