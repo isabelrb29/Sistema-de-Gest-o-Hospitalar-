@@ -1,5 +1,6 @@
 package br.com.uninter.sghss.controllers;
 
+import br.com.uninter.sghss.dto.PermissoesRequest;
 import br.com.uninter.sghss.entities.Usuario;
 import br.com.uninter.sghss.entities.Perfil;
 import br.com.uninter.sghss.entities.Permissao;
@@ -82,6 +83,16 @@ public class UsuarioController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PostMapping("/perfis/{id}/permissoes")
+    public ResponseEntity<Perfil> adicionarPermissoes(
+            @PathVariable Long id,
+            @RequestBody PermissoesRequest request
+    ) {
+        Perfil perfilAtualizado = perfilService.adicionarPermissoes(id, request.getIdsPermissoes());
+        return ResponseEntity.ok(perfilAtualizado);
+    }
+
 
     // -------------------- PERMISSÕES --------------------
 
