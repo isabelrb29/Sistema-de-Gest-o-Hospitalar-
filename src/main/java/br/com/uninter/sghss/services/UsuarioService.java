@@ -1,8 +1,12 @@
 package br.com.uninter.sghss.services;
 
+import br.com.uninter.sghss.entities.Administrador;
+import br.com.uninter.sghss.entities.Paciente;
+import br.com.uninter.sghss.entities.Profissional;
 import br.com.uninter.sghss.entities.Usuario;
 import br.com.uninter.sghss.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +18,11 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public Usuario salvar(Usuario usuario) {
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         return usuarioRepository.save(usuario);
     }
 
@@ -25,6 +33,38 @@ public class UsuarioService {
     public Optional<Usuario> buscarPorId(Long id) {
         return usuarioRepository.findById(id);
     }
+
+    public List<Usuario> buscarPorTipo(Class<?> tipoClasse) {
+        return usuarioRepository.findAll()
+                .stream()
+                .filter(tipoClasse::isInstance)
+                .toList();
+    }
+
+    public List<Administrador> listarAdministradores() {
+        return buscarPorTipo(Administrador.class).stream()
+                .map(Administrador.class::cast)
+                .toList();
+    }
+
+    public List<Paciente> listarPacientes() {
+        return buscarPorTipo(Paciente.class).stream()
+                .map(Paciente.class::cast)
+                .toList();
+    }
+
+    public List<Profissional> listarProfissionais() {
+        return buscarPorTipo(Profissional.class).stream()
+                .map(Profissional.class::cast)
+                .toList();
+    }
+
+    /*public List<Profissional> buscarProfissionais() {
+        return usuarioRepository.findAll().stream()
+                .filter(u -> u instanceof Profissional)
+                .map(u -> (Profissional) u)
+                .toList();
+    }*/
 
     public Usuario atualizar(Long id, Usuario usuarioAtualizado) {
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);

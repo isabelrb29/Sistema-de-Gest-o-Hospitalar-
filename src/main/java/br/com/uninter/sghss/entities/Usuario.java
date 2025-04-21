@@ -1,9 +1,24 @@
 package br.com.uninter.sghss.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "tipoUsuario"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Administrador.class, name = "Administrador"),
+        @JsonSubTypes.Type(value = Paciente.class, name = "Paciente"),
+        @JsonSubTypes.Type(value = Profissional.class, name = "Profissional")
+})
 
 @Data
 @Entity
@@ -33,6 +48,7 @@ public abstract class Usuario {
     @Column(nullable = false, length = 20)
     private String telefone;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(nullable = false, length = 255)
     private String senha;
 
@@ -43,5 +59,6 @@ public abstract class Usuario {
     @JoinColumn(name = "id_perfil", nullable = false)
     private Perfil perfil;
 
+    @JsonIgnore
     public abstract String getTipoUsuario();
 }

@@ -17,10 +17,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado com o email: " + email));
 
+        // Pega a role do tipo do usuário (ex: ROLE_ADMINISTRADOR, ROLE_PROFISSIONAL)
+        String role = usuario.getTipoUsuario();
+
         return User.builder()
                 .username(usuario.getEmail())
                 .password(usuario.getSenha())
-                .roles(usuario.getTipoUsuario().toUpperCase()) // "PROFISSIONAL", "PACIENTE", "ADMINISTRADOR"
+                .roles(role)
                 .build();
     }
 }

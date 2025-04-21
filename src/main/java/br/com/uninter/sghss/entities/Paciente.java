@@ -12,6 +12,6 @@ public class Paciente extends Usuario{
 
     @Override
     public String getTipoUsuario() {
-        return "ROLE_PACIENTE";
+        return "PACIENTE";
     }
 }

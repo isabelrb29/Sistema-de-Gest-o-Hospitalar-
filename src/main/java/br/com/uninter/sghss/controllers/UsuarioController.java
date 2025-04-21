@@ -1,6 +1,9 @@
 package br.com.uninter.sghss.controllers;
 
 import br.com.uninter.sghss.dto.PermissoesRequest;
+import br.com.uninter.sghss.dto.ProfissionalResponseDTO;
+import br.com.uninter.sghss.dto.UsuarioResponseDTO;
+import br.com.uninter.sghss.entities.Profissional;
 import br.com.uninter.sghss.entities.Usuario;
 import br.com.uninter.sghss.entities.Perfil;
 import br.com.uninter.sghss.entities.Permissao;
@@ -12,6 +15,7 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -35,10 +39,84 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> buscarUsuario(@PathVariable Long id) {
-        return usuarioService.buscarPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<?> buscarUsuario(@PathVariable Long id) {
+        Optional<Usuario> optionalUsuario = usuarioService.buscarPorId(id);
+
+        if (optionalUsuario.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
+        }
+
+        Usuario usuario = optionalUsuario.get();
+
+        if (usuario instanceof Profissional profissional) {
+            ProfissionalResponseDTO dto = new ProfissionalResponseDTO();
+            dto.setId(profissional.getId());
+            dto.setNome(profissional.getNome());
+            dto.setEmail(profissional.getEmail());
+            dto.setTelefone(profissional.getTelefone());
+            dto.setAtivo(profissional.isAtivo());
+            dto.setTipoUsuario(profissional.getTipoUsuario());
+            dto.setEspecialidade(profissional.getEspecialidade());
+            dto.setRegistroProfissional(profissional.getRegistroProfissional());
+            return ResponseEntity.ok(dto);
+        }
+
+        UsuarioResponseDTO dto = new UsuarioResponseDTO();
+        dto.setId(usuario.getId());
+        dto.setNome(usuario.getNome());
+        dto.setEmail(usuario.getEmail());
+        dto.setTelefone(usuario.getTelefone());
+        dto.setAtivo(usuario.isAtivo());
+        dto.setTipoUsuario(usuario.getTipoUsuario());
+
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/pacientes")
+    public ResponseEntity<List<UsuarioResponseDTO>> listarPacientes() {
+        var lista = usuarioService.listarPacientes()
+                .stream()
+                .map(paciente -> new UsuarioResponseDTO(
+                        paciente.getId(),
+                        paciente.getNome(),
+                        paciente.getEmail(),
+                        paciente.getTelefone(),
+                        paciente.isAtivo(),
+                        paciente.getTipoUsuario()))
+                .toList();
+        return ResponseEntity.ok(lista);
+    }
+
+    @GetMapping("/profissionais")
+    public ResponseEntity<List<ProfissionalResponseDTO>> listarProfissionais() {
+        var lista = usuarioService.listarProfissionais()
+                .stream()
+                .map(p -> new ProfissionalResponseDTO(
+                        p.getId(),
+                        p.getNome(),
+                        p.getEmail(),
+                        p.getTelefone(),
+                        p.isAtivo(),
+                        p.getTipoUsuario(),
+                        p.getEspecialidade(),
+                        p.getRegistroProfissional()))
+                .toList();
+        return ResponseEntity.ok(lista);
+    }
+
+    @GetMapping("/administradores")
+    public ResponseEntity<List<UsuarioResponseDTO>> listarAdministradores() {
+        var lista = usuarioService.listarAdministradores()
+                .stream()
+                .map(admin -> new UsuarioResponseDTO(
+                        admin.getId(),
+                        admin.getNome(),
+                        admin.getEmail(),
+                        admin.getTelefone(),
+                        admin.isAtivo(),
+                        admin.getTipoUsuario()))
+                .toList();
+        return ResponseEntity.ok(lista);
     }
 
     @PutMapping("/{id}")
@@ -105,6 +183,17 @@ public class UsuarioController {
     @GetMapping("/permissoes")
     public ResponseEntity<List<Permissao>> listarPermissoes() {
         return ResponseEntity.ok(permissaoService.listarTodas());
+    }
+
+    @GetMapping("/permissoes/{id}")
+    public ResponseEntity<?> buscarPermissao(@PathVariable Long id) {
+        Optional<Permissao> permissao = permissaoService.buscarPorId(id);
+
+        if (permissao.isPresent()) {
+            return ResponseEntity.ok(permissao.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Permissão não encontrada");
+        }
     }
 
     @PutMapping("/permissoes/{id}")
