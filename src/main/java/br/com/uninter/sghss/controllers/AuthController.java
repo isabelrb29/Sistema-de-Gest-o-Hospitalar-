@@ -29,15 +29,18 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
         try {
-            // Autentica com e-mail e senha
-            Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    request.getEmail(),
-                    request.getSenha()
+            // Autentica o usuário usando o AuthenticationManager
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getEmail(),
+                            request.getSenha()
+                    )
             );
-            authenticationManager.authenticate(authentication);
 
-            // Gera o token com base no UserDetails
-            UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
+            // Pega o UserDetails autenticado
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+            // Gera o token com as roles
             String token = jwtUtil.generateToken(userDetails);
 
             return ResponseEntity.ok(new LoginResponse(token));
@@ -47,6 +50,7 @@ public class AuthController {
         }
     }
 
+
     @GetMapping("/usuario-logado")
     public ResponseEntity<UsuarioLogadoResponse> getUsuarioLogado() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -55,7 +59,11 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        Object principal = authentication.getPrincipal();
+
+        if (!(principal instanceof UserDetails userDetails)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 
         String email = userDetails.getUsername();
         String role = userDetails.getAuthorities().stream()

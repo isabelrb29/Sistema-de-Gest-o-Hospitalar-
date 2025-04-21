@@ -3,11 +3,13 @@ package br.com.uninter.sghss.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import jakarta.annotation.PostConstruct;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -24,9 +26,13 @@ public class JwtUtil {
         this.secretKey = Jwts.SIG.HS256.key().build(); // geração moderna da chave
     }
 
-    // Gera um token com subject = email do usuário
     public String generateToken(UserDetails userDetails) {
-        return createToken(Map.of(), userDetails.getUsername());
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("authorities", userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .toList());
+
+        return createToken(claims, userDetails.getUsername());
     }
 
     private String createToken(Map<String, Object> claims, String subject) {
