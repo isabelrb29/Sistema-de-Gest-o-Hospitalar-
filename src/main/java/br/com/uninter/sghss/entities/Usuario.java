@@ -33,6 +33,10 @@ public abstract class Usuario {
     @Column(nullable = false, length = 255)
     private String nome;
 
+    @ManyToOne
+    @JoinColumn(name = "id_perfil", nullable = false)
+    private Perfil perfil;
+
     @Column(nullable = false)
     private LocalDate dataNascimento;
 
@@ -54,10 +58,6 @@ public abstract class Usuario {
 
     @Column(nullable = false)
     private boolean ativo = true;
-
-    @ManyToOne
-    @JoinColumn(name = "id_perfil", nullable = false)
-    private Perfil perfil;
 
     @JsonIgnore
     public abstract String getTipoUsuario();

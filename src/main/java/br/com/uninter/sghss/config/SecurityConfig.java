@@ -40,14 +40,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
                         .anyRequest().authenticated()
                 )
-                /*.authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/usuarios/perfis").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/usuarios/permissoes").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/usuarios/perfis/**").permitAll()
-                        .anyRequest().authenticated()
-                )*/
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

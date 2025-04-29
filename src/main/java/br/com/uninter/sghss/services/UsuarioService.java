@@ -59,13 +59,6 @@ public class UsuarioService {
                 .toList();
     }
 
-    /*public List<Profissional> buscarProfissionais() {
-        return usuarioRepository.findAll().stream()
-                .filter(u -> u instanceof Profissional)
-                .map(u -> (Profissional) u)
-                .toList();
-    }*/
-
     public Usuario atualizar(Long id, Usuario usuarioAtualizado) {
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
 
